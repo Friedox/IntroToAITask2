@@ -291,6 +291,11 @@ public class Main {
 
         int counter = 0;
         while (true) {
+            if (counter >= 10000) {
+                System.out.println("The problem does not have solution!");
+                break;
+            }
+
             Matrix D = Matrix.identityMatrix(numCols);
 
 
@@ -397,8 +402,28 @@ public class Main {
 
         Matrix X_zero = new Matrix(X_zero_temp);
 
-        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.5, X_zero);
+        boolean allZeros = true;
+        for (double element : cTemp) {
+            if (element != 0.0) {
+                allZeros = false;
+                break;
+            }
+        }
 
-        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.9, X_zero);
+        boolean foundNegative = false;
+        for (double element : b) {
+            if (element < 0.0) {
+                foundNegative = true;
+                break;
+            }
+        }
+
+        if (allZeros || foundNegative) {
+            System.out.println("The method is not applicable!");
+        } else {
+            InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.5, X_zero);
+
+            InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.9, X_zero);
+        }
     }
-}   
+}
