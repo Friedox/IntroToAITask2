@@ -286,14 +286,8 @@ class Matrix {
 
 public class Main {
 
-    public static Matrix findInitialFeasiblePoint() {
-        return new Matrix(new double[]{1, 1, 1, 1, 1, 1});
-    }
-
-    public static void InteriorPoint(int numRows, int numCols, Matrix C, Matrix A, double[] b, double accuracy, double alpha) {
+    public static void InteriorPoint(int numRows, int numCols, Matrix C, Matrix A, double[] b, double accuracy, double alpha, Matrix X_zero) {
         System.out.println("STARTED");
-        Matrix X_zero;
-        X_zero = findInitialFeasiblePoint();
 
         int counter = 0;
         while (true) {
@@ -395,8 +389,16 @@ public class Main {
         System.out.print("Enter the approximation accuracy: ");
         double accuracy = Double.parseDouble(scanner.next());
 
-        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.5);
+        double[] X_zero_temp = new double[numCols];
+        System.out.println("Enter the coefficients of the X zero:");
+        for (int j = 0; j < numCols; j++) {
+            X_zero_temp[j] = scanner.nextDouble();
+        }
 
-        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.9);
+        Matrix X_zero = new Matrix(X_zero_temp);
+
+        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.5, X_zero);
+
+        InteriorPoint(numRows, numCols, C, A, b, accuracy, 0.9, X_zero);
     }
-}
+}   
